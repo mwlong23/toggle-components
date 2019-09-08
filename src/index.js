@@ -8,16 +8,34 @@ import "./styles.css";
 class App extends Component {
   state = {
     persons: [
-      { name: "Kate", age: 26 },
-      { name: "Mitch", age: 29 },
-      { name: "Jess", age: 28 }
+      { id: 1231, name: "Kate", age: 26 },
+      { id: 1232, name: "Mitch", age: 29 },
+      { id: 1233, name: "Jess", age: 28 }
     ],
     showPersons: false
   };
 
   deletePersonHandler = personIndex => {
-    let persons = this.state.persons;
-    persons.splice(personIndex, 1);
+    let persons = [...this.state.persons];
+    const deleted = persons.splice(personIndex, 1);
+    this.setState({ persons: persons });
+    console.log(deleted);
+  };
+
+  nameChangedHandler = (event, id) => {
+    let personIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
+    });
+    console.log(personIndex.toString());
+    let person = { ...this.state.persons[personIndex] };
+    person.name = event.target.value;
+
+    let persons = [this.state.persons[personIndex]];
+    persons[personIndex] = person;
+
+    this.setState({
+      persons: persons
+    });
   };
 
   togglePeople = () => {
@@ -42,9 +60,13 @@ class App extends Component {
           {this.state.persons.map((person, index) => {
             return (
               <Person
-                click={() => this.state.deletePersonHandler(index)}
+                click={() => this.deletePersonHandler(index)}
                 name={person.name}
                 age={person.age}
+                key={this.state.id}
+                changed={event => {
+                  this.nameChangedHandler(event, person.id);
+                }}
               />
             );
           })}
