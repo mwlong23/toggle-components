@@ -1,10 +1,10 @@
 import React from "react";
 import "./Person.css";
 
-const person = props => {
+const Person = props => {
   return (
     <div className="Person">
-      <p onClick={props.click}>
+      <p onClick={props.clickedDelete}>
         Hello, i'm {props.name}, I'm {props.age} years old
       </p>
       <input type="text" value={props.name} onChange={props.changed} />
@@ -12,4 +12,4 @@ const person = props => {
   );
 };
 
-export default person;
+export default Person;
